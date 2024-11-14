@@ -106,9 +106,20 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
+        count = 0
+        value = 9
+        most_constrained_cell = None
 
-        for i in range(self.size):
-            if self.rows[i] != ""
+        for i, j in range(self.size):
+            if self.rows[i][j] == "*":
+                count += 1
+                if i == 8:
+                    if count < value:
+                        value = count
+                        most_constrained_cell = (i, j)
+                        
+            return most_constrained_cell
+
         pass
 
     def failure_test(self) -> bool:
