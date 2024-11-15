@@ -106,9 +106,11 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
+        """
+        
         count = 0
         value = 9
-        most_constrained_cell = None
+        most_constrained_cell = (0,0)
 
         for i, j in range(self.size):
             if self.rows[i][j] == "*":
@@ -119,6 +121,22 @@ class Board:
                         most_constrained_cell = (i, j)
                         
             return most_constrained_cell
+
+        mini = self.size()
+        row = 0
+        column = 0
+        
+        """
+
+        for i,r in enumerate(self.rows):
+            for j, col in enumerate(r):
+                #print(i, j , col)
+                if isinstance(col, list) and len(col) < mini:
+                    mini = len(col)
+                    row = i
+                    column = j
+                print("Changed value")
+        return row, column
 
         pass
 
