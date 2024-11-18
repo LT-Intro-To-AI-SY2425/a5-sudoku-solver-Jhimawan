@@ -122,11 +122,10 @@ class Board:
                         
             return most_constrained_cell
 
+        """
         mini = self.size()
         row = 0
         column = 0
-        
-        """
 
         for i,r in enumerate(self.rows):
             for j, col in enumerate(r):
@@ -148,7 +147,12 @@ class Board:
         Returns:
             True if we have failed to fill out the puzzle, False otherwise
         """
-        pass
+
+        for row in self.size:
+            for col in row:
+                if col == []:
+                    return True
+        return False
 
     def goal_test(self) -> bool:
         """Check if we've completed the puzzle (if we've placed all the numbers).
@@ -157,7 +161,10 @@ class Board:
         Returns:
             True if we've placed all numbers, False otherwise
         """
-        pass
+
+        if self.num_nums_placed == self.size * self.size:
+            return True
+        return False
 
     def update(self, row: int, column: int, assignment: int) -> None:
         """Assigns the given value to the cell given by passed in row and column
@@ -173,6 +180,7 @@ class Board:
         """
 
         self.rows[row][column] = assignment
+        self.num_nums_placed += 1
 
         for i in range(self.size):
             remove_if_exists(self.rows[row][i], assignment)
@@ -193,6 +201,8 @@ def DFS(state: Board) -> Board:
     Returns:
         either None in the case of invalid input or a solved board
     """
+
+    
     pass
 
 
