@@ -205,8 +205,16 @@ def DFS(state: Board) -> Board:
 
     while not s.is_empty:
         b: Board = s.pop()
-    
-    pass
+        if b.goal_test():
+            return b
+        row, col = b.find_most_constrained_cell()
+
+        for val in b.rows[row][col]:
+            cpy = copy.deepcopy()
+            cpy.update(row, col, val)
+            s.push(cpy)
+
+    return None
 
 
 def BFS(state: Board) -> Board:
@@ -221,8 +229,28 @@ def BFS(state: Board) -> Board:
     Returns:
         either None in the case of invalid input or a solved board
     """
-    pass
 
+    s = Stack([state])
+
+    while not s.is_empty:
+        b: Board = s.pop
+        if b.goal_test:
+            return b
+        row, col = b.find_most_constrained_cell()
+
+        for val in b.rows[row][col]:
+
+            for i in range (b.size):
+                if b[i][col] or b[row][i] != val:
+                    for j, k in b.subgrid_coordinates(row, col):
+                        if b[j][k] == val:
+                            return None
+        
+            cpy = copy.deepcopy()
+            cpy.update(row, col, val)
+            s.push(cpy)
+
+    return None
 
 if __name__ == "__main__":
     # uncomment the below lines once you've implemented the board class
