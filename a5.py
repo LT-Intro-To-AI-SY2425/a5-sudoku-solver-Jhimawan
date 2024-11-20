@@ -201,7 +201,10 @@ def DFS(state: Board) -> Board:
     Returns:
         either None in the case of invalid input or a solved board
     """
+    s = Stack([state])
 
+    while not s.is_empty:
+        b: Board = s.pop()
     
     pass
 
