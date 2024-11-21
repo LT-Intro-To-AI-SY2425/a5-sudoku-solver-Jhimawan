@@ -230,26 +230,26 @@ def BFS(state: Board) -> Board:
         either None in the case of invalid input or a solved board
     """
 
-    s = [state]
+    queue = [state]
 
-    while s:
-        b = s.pop(0)
+    while queue:
+        b = queue.pop(0)
+
         if b.goal_test():
             return b
 
         row, col = b.find_most_constrained_cell()
 
-        if isinstance(b.rows[row][col], list) and len(b.rows[row][col] == 0):
+        if isinstance(b.rows[row][col], list) and len(b.rows[row][col]) == 0:
             continue
 
-        for val in b.rows[row][col]:
+        for val in b.rows[row][col][:]:
         
             cpy = copy.deepcopy(b)
             cpy.update(row, col, val)
-           #s.push(cpy)
 
             if not cpy.failure_test():
-                s.append(cpy)
+                queue.append(cpy)
 
     return None
 
