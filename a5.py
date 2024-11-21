@@ -123,7 +123,7 @@ class Board:
             return most_constrained_cell
 
         """
-        mini = self.size()
+        mini = self.size
         row = 0
         column = 0
 
@@ -137,8 +137,6 @@ class Board:
                 print("Changed value")
         return row, column
 
-        pass
-
     def failure_test(self) -> bool:
         """Check if we've failed to correctly fill out the puzzle. If we find a cell
         that contains an [], then we have no more possibilities for the cell but haven't
@@ -148,7 +146,7 @@ class Board:
             True if we have failed to fill out the puzzle, False otherwise
         """
 
-        for row in self.size:
+        for row in self.rows:
             for col in row:
                 if col == []:
                     return True
@@ -207,10 +205,12 @@ def DFS(state: Board) -> Board:
         b: Board = s.pop()
         if b.goal_test():
             return b
-        row, col = b.find_most_constrained_cell()
+        mcc = b.find_most_constrained_cell()
+
+        row, col = mcc
 
         for val in b.rows[row][col]:
-            cpy = copy.deepcopy()
+            cpy = copy.deepcopy(b)
             cpy.update(row, col, val)
             s.push(cpy)
 
@@ -230,32 +230,33 @@ def BFS(state: Board) -> Board:
         either None in the case of invalid input or a solved board
     """
 
-    s = Stack([state])
+    s = [state]
 
-    while not s.is_empty:
-        b: Board = s.pop
-        if b.goal_test:
+    while s:
+        b = s.pop(0)
+        if b.goal_test():
             return b
+
         row, col = b.find_most_constrained_cell()
 
-        for val in b.rows[row][col]:
+        if isinstance(b.rows[row][col], list) and len(b.rows[row][col] == 0):
+            continue
 
-            for i in range (b.size):
-                if b[i][col] or b[row][i] != val:
-                    for j, k in b.subgrid_coordinates(row, col):
-                        if b[j][k] == val:
-                            return None
+        for val in b.rows[row][col]:
         
-            cpy = copy.deepcopy()
+            cpy = copy.deepcopy(b)
             cpy.update(row, col, val)
-            s.push(cpy)
+           #s.push(cpy)
+
+            if not cpy.failure_test():
+                s.append(cpy)
 
     return None
 
 if __name__ == "__main__":
     # uncomment the below lines once you've implemented the board class
 
-    b = Board()
+    """b = Board()
     print(b)
     b.print_pretty()
     b.update(3, 4, 4)
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     
 
     b.update(4, 5, 4)
-    b.print_pretty()
+    b.print_pretty()"""
    
     # # CODE BELOW HERE RUNS YOUR BFS/DFS
     print("<<<<<<<<<<<<<< Solving Sudoku >>>>>>>>>>>>>>")
@@ -315,7 +316,7 @@ if __name__ == "__main__":
          (7, 6, 9),
          (8, 1, 3),
          (8, 7, 8),
-     ]
+    ]
 
     second_moves = [
          (0, 1, 2),
